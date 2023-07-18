@@ -15,7 +15,6 @@ const VideoPlayer: React.FC<ContainerProps> = ({ videoData, currentPlaying, setC
   const videoWidth = videoData.videoWidth; // Replace with the actual video width
   const videoHeight = videoData.videoHeight; // Replace with the actual video height
 
-
   // const  = videoData.videoDuration; // Replace with the actual video duration
 
   // const isVideoSuitableForShortsApp = (videoWidth, videoHeight) => {
@@ -148,13 +147,26 @@ const VideoPlayer: React.FC<ContainerProps> = ({ videoData, currentPlaying, setC
   const videoPlayerClass = getVideoPlayerClass(videoOrientation);
 
   return (
-    <div className={videoPlayerClass}>
-      <video loop className={"video__player " + videoPlayerClass} onClick={handlePause} ref={videoRef} style={{ display: "block" }}>
-        <source src={videoData.videoUrl} type="video/mp4" />
-      </video>
-      <video loop className="audio__player" ref={audioRef} style={{ display: "none" }}>
-        <source src={videoData.audioUrl} type="audio/mpeg" />
-      </video>
+    <div className={!videoData?.videoUrl ? "" : videoPlayerClass}>
+      {/* {!videoData?.videoUrl ? ( */}
+      {!videoData?.videoUrl ? (
+        <div className="imagesContainer">
+          <div className={"images"}>
+            <img src={videoData.imageUrl} alt="" />
+          </div>
+        </div>
+      ) : (
+        // <div className={videoPlayerClass}>
+        <>
+          <video loop className={"video__player " + videoPlayerClass} onClick={handlePause} ref={videoRef} style={{ display: "block" }}>
+            <source src={videoData.videoUrl} type="video/mp4" />
+          </video>
+          <video loop className="audio__player" ref={audioRef} style={{ display: "none" }}>
+            <source src={videoData.audioUrl} type="audio/mpeg" />
+          </video>
+        </>
+        // </div>
+      )}
     </div>
   );
 };

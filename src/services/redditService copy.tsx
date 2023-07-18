@@ -99,13 +99,12 @@ function getImageUrl(postData: RedditPostData): string | null {
 }
 
 export const fetchVideos = async () => {
-  // let subreddit = "memes";
-    let subreddit = "memes+publicfreakout+idiotsincars"
-    // let subreddit = "publicfreakout"
-
+  // let subreddit = "memes+publicfrea
+  // let subreddit = "memes+publicfreakout+idiotsincars"
+  let subreddit = "publicfreakout"
   let sort = "hot";
   let time = "day";
-  let limit = 25;
+  let limit = 1000;
 
   let url = `https://www.reddit.com/r/${subreddit}/${sort}.json?limit=${limit}`;
 
@@ -119,6 +118,7 @@ export const fetchVideos = async () => {
     if (isVideo(data) || isImage(data)) {
       let videoUrl: string | null = getVideoUrl(data);
       let audioUrl: string | null = getAudioUrl(videoUrl);
+
       let imageUrl: string | null = getImageUrl(data);
 
       if ((videoUrl && audioUrl)) {
@@ -135,7 +135,7 @@ export const fetchVideos = async () => {
       }
 
 
-      if (!videoUrl  && imageUrl) { 
+      if (imageUrl) { 
         child.data.imageUrl = imageUrl;
         child.data.isImage = true;
         videos.push(child);

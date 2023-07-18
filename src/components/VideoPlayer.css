@@ -49,3 +49,14 @@ html {
   width: 100%;
   height: auto;
 }
+
+img {
+  max-width: 100%;
+}
+
+.imagesContainer {
+
+  /* margin: 0% auto; */
+  align-self: center;
+  margin: 0% 0% 15%;
+}

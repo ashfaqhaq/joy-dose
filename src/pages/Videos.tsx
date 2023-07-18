@@ -21,6 +21,8 @@ const Tab1: React.FC = () => {
     fetchData();
   }, []);
 
+  let random = Math.random();
+
   return (
     <IonPage>
       {/* <IonHeader>
@@ -35,7 +37,7 @@ const Tab1: React.FC = () => {
           <div className="app__videos">
             {videos.map((video: any, index) => (
               // <div onScroll={() => handleVideoScroll(index)}>
-              <div key={video.data.id} id={video.data.id} className="video__player_container" >
+              <div key={video.data.id + random} id={video.data.id} className="video__player_container" >
                 <VideoPlayer videoData={video.data} currentPlaying={currentPlaying} setCurrentPlaying={setCurrentPlaying} />
               </div>
             ))}

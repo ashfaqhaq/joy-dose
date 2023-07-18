@@ -34,7 +34,7 @@ html {
 
   .video__player_container {
     position: relative;
-    background-color: yellow;
+    /* background-color: yellow; */
     width: 100%;
     height: 100vh; /* Assuming each video takes up the full viewport height */
     scroll-snap-align: start;

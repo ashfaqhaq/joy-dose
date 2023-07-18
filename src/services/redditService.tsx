@@ -64,11 +64,11 @@ function getVideoUrl(postData: RedditPostData): string | null {
 }
 
 function getAudioUrl(videoUrl: string): string | null {
-  if (videoUrl.includes('DASH_')) {
+  if (videoUrl.includes("DASH_")) {
     // Remove resolution and replace with 'audio', e.g. '_DASH_480.mp4' => '_DASH_audio.mp4'
     // return videoUrl.replace(/_DASH_\d+.mp4/, '_DASH_audio.mp4');
     // replace DASH_480.mp4 with DASH_audio.mp4
-    return videoUrl.replace(/DASH_\d+.mp4/, 'DASH_audio.mp4');
+    return videoUrl.replace(/DASH_\d+.mp4/, "DASH_audio.mp4");
   }
   return null;
 }
@@ -79,7 +79,7 @@ export const fetchVideos = async () => {
   let time = "day";
   let limit = 100;
 
-  let url = `https://www.reddit.com/r/${subreddit}.json`;
+  let url = `https://www.reddit.com/r/${subreddit}/${sort}.json/?t=${time}&limit=${limit}`;
 
   const response = await axios.get(url);
   let children = response.data.data.children;
@@ -89,15 +89,38 @@ export const fetchVideos = async () => {
     let child = children[i];
     let data = child.data;
     if (isVideo(data)) {
-      let videoUrl:any = getVideoUrl(data);
+      let videoUrl:any= getVideoUrl(data);
       let audioUrl:any = getAudioUrl(videoUrl);
 
-      if(videoUrl && audioUrl) {
+      if (videoUrl && audioUrl) {
+        const {width,height, duration, isGif} =  getVideoResolution(data);
+      
+
         child.data.videoUrl = videoUrl;
         child.data.audioUrl = audioUrl;
+        child.data.videoWidth = width;
+        child.data.videoHeight = height;
+        child.data.videoDuration = duration;
+        child.data.isGif = isGif;
+        // child.data.videoDuration = getVideoDuration(data);
         videos.push(child);
       }
     }
   }
+
+  console.log(videos);
+
   return videos;
 };
+
+const getVideoResolution = (data) => {
+  const redditVideoPreview = data?.preview?.reddit_video_preview;
+  const width = redditVideoPreview?.width;
+  const height = redditVideoPreview?.height;
+
+  const duration = redditVideoPreview?.duration;
+  const isGif = redditVideoPreview?.is_gif;
+
+  return { width, height, duration, isGif };
+};
+

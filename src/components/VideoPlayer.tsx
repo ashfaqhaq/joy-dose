@@ -11,6 +11,44 @@ const VideoPlayer: React.FC<ContainerProps> = ({ videoData, currentPlaying, setC
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const audioRef = useRef<HTMLVideoElement | null>(null);
 
+ 
+
+  const videoWidth = videoData.videoWidth; // Replace with the actual video width
+  const videoHeight = videoData.videoHeight; // Replace with the actual video height
+
+
+  console.log({ videoWidth, videoHeight })
+
+  // const  = videoData.videoDuration; // Replace with the actual video duration
+
+  // const isVideoSuitableForShortsApp = (videoWidth, videoHeight) => {
+  //   const MAX_DURATION = 60; // Maximum duration in seconds
+  //   const REQUIRED_ASPECT_RATIO = 9 / 16; // Required aspect ratio (width:height)
+
+  //   // if ( > MAX_DURATION) {
+  //   //   return false; // Video duration exceeds the maximum allowed duration
+  //   // }
+
+  //   const aspectRatio = videoWidth / videoHeight;
+  //   if (aspectRatio < REQUIRED_ASPECT_RATIO) {
+  //     return false; // Video aspect ratio is not suitable (too wide)
+  //   }
+
+  //   return true; // Video is suitable for a shorts app
+  // };
+
+  const getVideoOrientation = (videoWidth: number, videoHeight: number) => {
+    if (videoWidth > videoHeight) {
+      return "landscape";
+    } else if (videoHeight > videoWidth) {
+      return "portrait";
+    } else {
+      return "square";
+    }
+  };
+
+  // const isSuitableForShortsApp = isVideoSuitableForShortsApp(videoWidth, videoHeight);
+  const videoOrientation = getVideoOrientation(videoWidth, videoHeight);
 
   const handlePause = () => {
     const videoElement: any = videoRef.current;
@@ -45,14 +83,13 @@ const VideoPlayer: React.FC<ContainerProps> = ({ videoData, currentPlaying, setC
 
     const audioObserver = new IntersectionObserver(handleIntersection, { threshold: 0.5 });
 
-    if(videoElement) {
+    if (videoElement) {
       observer.observe(videoElement);
     }
 
-    if(audioElement) {
+    if (audioElement) {
       audioObserver.observe(audioElement);
     }
-
 
     if (videoElement && audioElement) {
       videoElement.addEventListener("ended", () => {
@@ -60,16 +97,12 @@ const VideoPlayer: React.FC<ContainerProps> = ({ videoData, currentPlaying, setC
       });
     }
 
-
-
-
-
     return () => {
-      if(videoElement) {
+      if (videoElement) {
         observer.unobserve(videoElement);
-      } 
+      }
 
-      if(audioElement) {
+      if (audioElement) {
         audioObserver.unobserve(audioElement);
       }
 
@@ -78,7 +111,6 @@ const VideoPlayer: React.FC<ContainerProps> = ({ videoData, currentPlaying, setC
           setCurrentPlaying("");
         });
       }
-
     };
   }, [videoData, setCurrentPlaying]);
 
@@ -86,24 +118,37 @@ const VideoPlayer: React.FC<ContainerProps> = ({ videoData, currentPlaying, setC
     const videoElement: any = videoRef.current;
     const audioElement: any = audioRef.current;
 
-    if(currentPlaying === videoData.id && videoElement && audioElement) {
+    if (currentPlaying === videoData.id && videoElement && audioElement) {
       videoElement.play();
       audioElement.play();
-    } else if(videoElement && audioElement) {
+    } else if (videoElement && audioElement) {
       videoElement.pause();
       audioElement.pause();
     }
-
   }, [currentPlaying, videoData]);
 
+  const getVideoPlayerClass = (orientation: string) => {
+    switch (orientation) {
+      case "landscape":
+        return "landscape";
+      case "portrait":
+        return "portrait";
+      default:
+        return "";
+    }
+  };
+
+  const videoPlayerClass = getVideoPlayerClass(videoOrientation);
+
   return (
-    <div className="s">
-      <video loop className="video__player" onClick={handlePause} ref={videoRef} style={{display: 'block'}}>
+    <div className={videoPlayerClass}>
+      <video loop className={"video__player " + videoPlayerClass} onClick={handlePause} ref={videoRef} style={{ display: "block" }}>
         <source src={videoData.videoUrl} type="video/mp4" />
       </video>
-      <video loop className="audio__player" ref={audioRef} style={{display: 'none'}}>
+      <video loop className="audio__player" ref={audioRef} style={{ display: "none" }}>
         <source src={videoData.audioUrl} type="audio/mpeg" />
       </video>
+
     </div>
   );
 };

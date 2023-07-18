@@ -113,7 +113,7 @@ export const fetchVideos = async () => {
   return videos;
 };
 
-const getVideoResolution = (data) => {
+const getVideoResolution = (data:any) => {
   const redditVideoPreview = data?.preview?.reddit_video_preview;
   const width = redditVideoPreview?.width;
   const height = redditVideoPreview?.height;

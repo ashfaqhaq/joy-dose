@@ -1,5 +1,6 @@
 import { useRef, useEffect } from "react";
 import "./VideoPlayer.css";
+import { useIonViewDidLeave } from "@ionic/react";
 
 interface ContainerProps {
   videoData: any;
@@ -11,13 +12,9 @@ const VideoPlayer: React.FC<ContainerProps> = ({ videoData, currentPlaying, setC
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const audioRef = useRef<HTMLVideoElement | null>(null);
 
- 
-
   const videoWidth = videoData.videoWidth; // Replace with the actual video width
   const videoHeight = videoData.videoHeight; // Replace with the actual video height
 
-
-  console.log({ videoWidth, videoHeight })
 
   // const  = videoData.videoDuration; // Replace with the actual video duration
 
@@ -46,6 +43,15 @@ const VideoPlayer: React.FC<ContainerProps> = ({ videoData, currentPlaying, setC
       return "square";
     }
   };
+
+  // use the ionic lifecycle hooks to play and pause the video
+
+  useIonViewDidLeave(() => {
+    const videoElement: any = videoRef.current;
+    const audioElement: any = audioRef.current;
+    videoElement.pause();
+    audioElement.pause();
+  });
 
   // const isSuitableForShortsApp = isVideoSuitableForShortsApp(videoWidth, videoHeight);
   const videoOrientation = getVideoOrientation(videoWidth, videoHeight);
@@ -128,6 +134,7 @@ const VideoPlayer: React.FC<ContainerProps> = ({ videoData, currentPlaying, setC
   }, [currentPlaying, videoData]);
 
   const getVideoPlayerClass = (orientation: string) => {
+    // console.log("orientation", orientation)
     switch (orientation) {
       case "landscape":
         return "landscape";
@@ -148,7 +155,6 @@ const VideoPlayer: React.FC<ContainerProps> = ({ videoData, currentPlaying, setC
       <video loop className="audio__player" ref={audioRef} style={{ display: "none" }}>
         <source src={videoData.audioUrl} type="audio/mpeg" />
       </video>
-
     </div>
   );
 };

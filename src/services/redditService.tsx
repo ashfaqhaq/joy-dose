@@ -64,7 +64,7 @@ function getVideoUrl(postData: RedditPostData): string | null {
 }
 
 function getAudioUrl(videoUrl: string): string | null {
-  if (videoUrl.includes("DASH_")) {
+  if (videoUrl?.includes("DASH_")) {
     // Remove resolution and replace with 'audio', e.g. '_DASH_480.mp4' => '_DASH_audio.mp4'
     // return videoUrl.replace(/_DASH_\d+.mp4/, '_DASH_audio.mp4');
     // replace DASH_480.mp4 with DASH_audio.mp4
@@ -74,12 +74,14 @@ function getAudioUrl(videoUrl: string): string | null {
 }
 
 export const fetchVideos = async () => {
-  let subreddit = "eyebleach";
+  let subreddit = "publicfreakout+idiotsincars+instantkarma+";
+  // let subreddit = "memes"
   let sort = "hot";
   let time = "day";
   let limit = 100;
 
-  let url = `https://www.reddit.com/r/${subreddit}/${sort}.json/?t=${time}&limit=${limit}`;
+  // let url = `https://www.reddit.com/r/${subreddit}/${sort}.json/?t=${time}&limit=${limit}`;
+  let url = `https://www.reddit.com/r/${subreddit}/${sort}.json?limit=${limit}`;
 
   const response = await axios.get(url);
   let children = response.data.data.children;
@@ -88,7 +90,7 @@ export const fetchVideos = async () => {
   for (let i = 0; i < children.length; i++) {
     let child = children[i];
     let data = child.data;
-    if (isVideo(data)) {
+    if (true || isVideo(data)) {
       let videoUrl:any= getVideoUrl(data);
       let audioUrl:any = getAudioUrl(videoUrl);
 
@@ -114,6 +116,7 @@ export const fetchVideos = async () => {
 };
 
 const getVideoResolution = (data:any) => {
+  console.log("data", data)
   const redditVideoPreview = data?.preview?.reddit_video_preview;
   const width = redditVideoPreview?.width;
   const height = redditVideoPreview?.height;
@@ -121,6 +124,7 @@ const getVideoResolution = (data:any) => {
   const duration = redditVideoPreview?.duration;
   const isGif = redditVideoPreview?.is_gif;
 
+  console.log("width", width, "height", height, "duration", duration, "isGif", isGif)
   return { width, height, duration, isGif };
 };
 

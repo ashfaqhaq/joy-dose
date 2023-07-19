@@ -27,3 +27,7 @@ yarn-error.log*
 
 # Optional eslint cache
 .eslintcache
+
+
+# remove any data in dist/assets folder
+/dist/assets/*

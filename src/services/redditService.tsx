@@ -28,6 +28,22 @@ interface RedditPostData {
   };
 }
 
+export const fetchVideos = async () => {
+  const videos = await fetchPosts();
+  return videos.filter(post => post.data.videoUrl && post.data.audioUrl);
+};
+
+export const fetchImages = async () => {
+  const images = await fetchPosts();
+  return images.filter(post => post.data.imageUrl && post.data.isImage);
+};
+
+
+
+
+
+
+
 function isVideo(postData: RedditPostData): boolean {
   const { is_video, url_overridden_by_dest, preview } = postData;
 
@@ -98,9 +114,16 @@ function getImageUrl(postData: RedditPostData): string | null {
   return null;
 }
 
-export const fetchVideos = async () => {
+export const fetchPosts  = async (userSettings:any) => {
+  
+  //  let listOfSubreddits = userSettings.subreddits;
+   let listOfSubreddits = ["memes"];
+
+  //concatenate the subreddits into a string
+  let subreddit = listOfSubreddits.join("+");
+  
   // let subreddit = "memes";
-    let subreddit = "memes+publicfreakout+idiotsincars"
+    // let subreddit = "memes+publicfreakout+idiotsincars"
     // let subreddit = "publicfreakout"
 
   let sort = "hot";

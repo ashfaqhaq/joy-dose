@@ -5,7 +5,7 @@ import { IonIcon, IonLabel, IonRouterOutlet, IonTabBar, IonTabButton, IonTabs } 
 import { triangle, ellipse, square, home, albums, videocam } from "ionicons/icons";
 import Home from "../pages/Home";
 import Videos from "../pages/Videos";
-import Posts from "../pages/Posts";
+import Images from "../pages/Images";
 
 import { IonReactRouter } from "@ionic/react-router";
 
@@ -20,8 +20,8 @@ const MyApp: React.FC = () => {
           <Route exact path="/tab2">
             <Videos />
           </Route>
-          <Route path="/tab3">
-            <Posts />
+          <Route path="/images">
+            <Images />
           </Route>
           <Route exact path="/">
             <Redirect to="/tab1" />
@@ -36,9 +36,9 @@ const MyApp: React.FC = () => {
             <IonIcon aria-hidden="true" icon={videocam} />
             <IonLabel>Videos</IonLabel>
           </IonTabButton>
-          <IonTabButton tab="posts" href="/tab3">
+          <IonTabButton tab="Images" href="/images">
             <IonIcon aria-hidden="true" icon={albums} />
-            <IonLabel>Posts</IonLabel>
+            <IonLabel>Images</IonLabel>
           </IonTabButton>
         </IonTabBar>
         )

@@ -50,6 +50,7 @@ const VideoPlayer: React.FC<ContainerProps> = ({ videoData, currentPlaying, setC
     const audioElement: any = audioRef.current;
     videoElement.pause();
     audioElement.pause();
+    setCurrentPlaying("");
   });
 
   // const isSuitableForShortsApp = isVideoSuitableForShortsApp(videoWidth, videoHeight);

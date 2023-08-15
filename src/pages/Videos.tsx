@@ -18,16 +18,15 @@ const Videos: React.FC = () => {
       setVideos(data);
     };
 
-    fetchData();
+    fetchData();    
   }, []);
 
   useIonViewDidLeave(() => {
     // alert("leaving");
     setCurrentPlaying("");
   });
+ 
 
-  let random = Math.random();
-  console.log("videos", videos)
   return (
     <IonPage>
       
@@ -41,10 +40,8 @@ const Videos: React.FC = () => {
         <IonContent>
           {/* a title of the current playing */}
           <div className="app__videos">
-            
             {videos.map((video: any, index) => (
-              // <div onScroll={() => handleVideoScroll(index)}>
-              <div key={video.data.id + random} id={video.data.id} className="video__player_container">
+              <div key={video.data.id} id={video.data.id} className="video__player_container">
                 <VideoPlayer videoData={video.data} currentPlaying={currentPlaying} setCurrentPlaying={setCurrentPlaying} />
               </div>
             ))}

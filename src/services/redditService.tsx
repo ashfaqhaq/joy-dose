@@ -120,9 +120,9 @@ export const fetchPosts  = async (type:any) => {
    let listOfSubreddits;  
    
    if(type === "videos"){
-    listOfSubreddits = ["publicfreakout","idiotsincars"];
+    listOfSubreddits = ["Eyebleach","idiotsincars"];
    }else{
-    listOfSubreddits = ["memes"];
+    listOfSubreddits = ["cats","Eyebleach"];
    }
 
   //concatenate the subreddits into a string

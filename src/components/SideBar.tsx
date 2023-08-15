@@ -16,8 +16,10 @@ import {
   IonImg,
   IonAvatar,
   IonButtons,
+  IonInput,
 } from "@ionic/react";
-import { heartOutline, heartSharp, chatbubbleOutline, chatbubbleSharp, shareSocialOutline } from "ionicons/icons";
+import { heartOutline, heartSharp, chatbubbleOutline, chatbubbleSharp, shareSocialOutline, closeSharp, shareSocialSharp } from "ionicons/icons";
+import "./SideBar.css";
 // import CommentSection from './CommentSection'; // Import your CommentSection component
 
 const Sidebar: React.FC = () => {
@@ -53,12 +55,22 @@ const Sidebar: React.FC = () => {
           <CommentSection />
         </IonContent>
       </IonModal> */}
-      <IonModal ref={modal} isOpen={showModal} initialBreakpoint={0.25} breakpoints={[0.25, 0.5, 0.75]} backdropDismiss={true} backdropBreakpoint={0.5} onDidDismiss={() => setShowModal(false)}>
-        <CommentSection modalRef={modal} />
+      <IonModal
+        ref={modal}
+        isOpen={showModal}
+        initialBreakpoint={0.25}
+        breakpoints={[0, 0.25, 0.5, 0.75, 1]}
+        handleBehavior="cycle"
+        // initialBreakpoint={0.50} breakpoints={[0.25, 0.5, 0.75, 1]}
+        // backdropDismiss={true} backdropBreakpoint={0.5}
+        onDidDismiss={() => setShowModal(false)}
+      >
+        <CommentSection modalRef={modal}  />
       </IonModal>
 
-      <IonButton fill="clear" size="large">
-        <IonIcon icon={shareSocialOutline} />
+      <IonButton fill="clear" size="large" color={"Dark"}>
+        
+        <IonIcon icon={shareSocialSharp} />
       </IonButton>
     </div>
   );
@@ -66,7 +78,18 @@ const Sidebar: React.FC = () => {
 
 const mockComments = [
   { id: 1, comment: "This is a reddit comment", source: "reddit" },
-  { id: 2, comment: "This is an app comment", source: "app" },
+  { id: 11, comment: "This is a reddit comment", source: "reddit" },
+  { id: 31, comment: "This is a reddit comment", source: "reddit" },
+  { id: 41, comment: "This is a reddit comment", source: "reddit" },
+  { id: 51, comment: "This is a reddit comment", source: "reddit" },
+  { id: 22, comment: "This is an app comment", source: "app" },
+  { id: 12, comment: "This is an app comment", source: "reddit" },
+  { id: 24, comment: "This is an app comment", source: "reddit" },
+  { id: 122, comment: "This is an app comment", source: "reddit" },
+  { id: 25, comment: "This is an app comment", source: "reddit" },
+  { id: 241, comment: "This is an app comment", source: "reddit" },
+  { id: 1234, comment: "This is an app comment", source: "reddit" },
+  { id: 4563, comment: "This is an app comment", source: "reddit" },
 ];
 
 // const OldCommentSection: React.FC = () => {
@@ -100,7 +123,12 @@ const mockComments = [
 //     );
 //   };
 
-function CommentSection({ modalRef }) {
+function CommentSection({ modalRef }:any) {
+  const [newComment, setNewComment] = useState<string>("");
+  const addComment = () => {
+    console.log("addComment", newComment);
+    setNewComment("");
+  };
   const [segment, setSegment] = useState("reddit");
 
   const handleSegmentChange = (e: CustomEvent) => {
@@ -122,42 +150,66 @@ function CommentSection({ modalRef }) {
     <div>
       <IonHeader>
         {/* <IonTitle>Comments</IonTitle> */}
-        <IonToolbar>
-          <IonButtons slot="start">
-            <IonButton onClick={() => modalRef.current?.dismiss()}>Cancel</IonButton>
-          </IonButtons>
-          <IonTitle>Welcome</IonTitle>
-          <IonButtons slot="end">
-            <IonButton strong={true} onClick={() => confirm()}>
-              Confirm
-            </IonButton>
-          </IonButtons>
-         </IonToolbar>
-         <IonToolbar> 
-          <IonSegment onIonChange={(e) => handleSegmentChange(e)}>
-            <IonSegmentButton value="reddit">
-              <IonLabel>Reddit</IonLabel>
-            </IonSegmentButton>
-            <IonSegmentButton value="app">
-              <IonLabel>App</IonLabel>
-            </IonSegmentButton>
-          </IonSegment>
-        </IonToolbar>
+        {true && (
+          <>
+            {" "}
+            <IonToolbar>
+              <IonTitle slot="start">Comments</IonTitle>
+              <IonButtons slot="end">
+                <IonButton onClick={() => modalRef.current?.dismiss()}>
+                  {/* the icon for cancel */}
+                  <IonIcon icon={closeSharp} />
+                </IonButton>
+              </IonButtons>
+            </IonToolbar>
+            <IonToolbar>
+              {false && <IonSegment onIonChange={(e) => handleSegmentChange(e)}>
+                <IonSegmentButton value="reddit">
+                  <IonLabel>Reddit</IonLabel>
+                </IonSegmentButton>
+                <IonSegmentButton value="app">
+                  <IonLabel>App</IonLabel>
+                </IonSegmentButton>
+              </IonSegment>}
+            </IonToolbar>{" "}
+          </>
+        )}
       </IonHeader>
-      <IonContent className="ion-padding">
-        <IonList>
-          {comments.map(({ id, comment }) => (
-            <IonItem key={id}>
+      <div style={{ height: "100vh", overflowY: "auto" }}>
+        <IonContent>
+          {true && (
+            <IonItem>
               <IonAvatar slot="start">
-                <IonImg src="https://i.pravatar.cc/300?u=b" />
+                <IonImg src="https://i.pravatar.cc/300?u=a" />
               </IonAvatar>
-              <IonLabel>
-                <h2>{comment}</h2>
-              </IonLabel>
+              <IonInput placeholder="Add a comment..." value={newComment} onIonChange={(e:any) => setNewComment(e.target.value)} />
+              <IonButton slot="end" onClick={() => addComment()}>
+                Post
+              </IonButton>
             </IonItem>
-          ))}
-        </IonList>
-      </IonContent>
+          )}
+          {true && (
+            <div
+              className="comment-section-container"
+              style={{
+                height: "100%",
+                // overflowY: "scroll",
+              }}
+            >
+              <IonList>
+                {comments.map(({ id, comment }) => (
+                  <IonItem key={id}>
+                    <IonAvatar slot="start">
+                      <IonImg src="https://i.pravatar.cc/300?u=b" />
+                    </IonAvatar>
+                    <IonLabel>{comment}</IonLabel>
+                  </IonItem>
+                ))}
+              </IonList>
+            </div>
+          )}
+        </IonContent>
+      </div>
     </div>
   );
 }

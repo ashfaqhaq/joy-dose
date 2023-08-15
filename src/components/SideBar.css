@@ -1,0 +1,8 @@
+.sidebar {
+    display: flex;
+    position: absolute;
+    right: 10px;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    bottom: 10%;
+}

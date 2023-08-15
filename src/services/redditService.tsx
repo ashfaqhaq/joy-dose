@@ -29,12 +29,12 @@ interface RedditPostData {
 }
 
 export const fetchVideos = async () => {
-  const videos = await fetchPosts();
+  const videos = await fetchPosts("videos");
   return videos.filter(post => post.data.videoUrl && post.data.audioUrl);
 };
 
 export const fetchImages = async () => {
-  const images = await fetchPosts();
+  const images = await fetchPosts("images");
   return images.filter(post => post.data.imageUrl && post.data.isImage);
 };
 
@@ -114,10 +114,16 @@ function getImageUrl(postData: RedditPostData): string | null {
   return null;
 }
 
-export const fetchPosts  = async (userSettings:any) => {
+export const fetchPosts  = async (type:any) => {
   
   //  let listOfSubreddits = userSettings.subreddits;
-   let listOfSubreddits = ["memes"];
+   let listOfSubreddits;  
+   
+   if(type === "videos"){
+    listOfSubreddits = ["publicfreakout","idiotsincars"];
+   }else{
+    listOfSubreddits = ["memes"];
+   }
 
   //concatenate the subreddits into a string
   let subreddit = listOfSubreddits.join("+");

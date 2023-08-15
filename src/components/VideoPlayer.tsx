@@ -12,6 +12,9 @@ const VideoPlayer: React.FC<ContainerProps> = ({ videoData, currentPlaying, setC
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const audioRef = useRef<HTMLVideoElement | null>(null);
 
+
+  console.log("videoData",videoData)
+
   const videoWidth = videoData.videoWidth; // Replace with the actual video width
   const videoHeight = videoData.videoHeight; // Replace with the actual video height
 
@@ -148,14 +151,17 @@ const VideoPlayer: React.FC<ContainerProps> = ({ videoData, currentPlaying, setC
   const videoPlayerClass = getVideoPlayerClass(videoOrientation);
 
   return (
-    <div className={!videoData?.videoUrl ? "" : videoPlayerClass}>
+    // <div className={!videoData?.videoUrl ? "" : videoPlayerClass}>
+    <div className ="video__player_container">
       {/* {!videoData?.videoUrl ? ( */}
       {!videoData?.videoUrl ? (
-        <div className="imagesContainer">
-          <div className={"images"}>
-            <img src={videoData.imageUrl} alt="" />
-          </div>
-        </div>
+        <>
+        </>
+        // <div className="imagesContainer">
+        //   <div className={"images"}>
+        //     <img src={videoData.imageUrl} alt="" />
+        //   </div>
+        // </div>
       ) : (
         // <div className={videoPlayerClass}>
         <>

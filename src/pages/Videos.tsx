@@ -5,7 +5,7 @@ import { fetchVideos } from "../services/redditService";
 import ReactPlayer from "react-player";
 import VideoPlayer from "../components/VideoPlayer";
 import "./Videos.css";
-const Tab1: React.FC = () => {
+const Videos: React.FC = () => {
   const [videos, setVideos] = useState([]);
   const [currentPlaying, setCurrentPlaying] = useState("");
 
@@ -27,7 +27,7 @@ const Tab1: React.FC = () => {
   });
 
   let random = Math.random();
-
+  console.log("videos", videos)
   return (
     <IonPage>
       
@@ -41,6 +41,7 @@ const Tab1: React.FC = () => {
         <IonContent>
           {/* a title of the current playing */}
           <div className="app__videos">
+            
             {videos.map((video: any, index) => (
               // <div onScroll={() => handleVideoScroll(index)}>
               <div key={video.data.id + random} id={video.data.id} className="video__player_container">
@@ -54,4 +55,4 @@ const Tab1: React.FC = () => {
   );
 };
 
-export default Tab1;
+export default Videos;
